@@ -1,0 +1,19 @@
+{% extends "owaste/base.html" %}
+{% block content %}
+<br>
+<h2 style="text-align:center;color:#3498DB;">회원정보</h2>
+
+<div class="d-grid gap-2 col-1 mx-auto">
+    <a href="{% url 'common:change_password' %}"><button class="btn btn-primary" type="button">비밀번호 변경</button></a>
+</div>
+
+<br>
+
+<div class="d-grid gap-2 col-1 mx-auto">
+    <button class="btn btn-primary" type="button">닉네임 변경</button>
+</div>
+        {{ user.username }}
+        {{ user.first_name }} 
+        {{ user.pk }}
+
+{% endblock %}

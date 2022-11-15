@@ -1,0 +1,117 @@
+{% extends 'owaste/base.html' %} 
+{% block content %}
+
+<form action="{% url 'search_result' %}" method="GET">
+  <div class="row" style="margin-bottom: 15px">
+    <div class="col-lg-5">
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          name="search_key"
+          value="{{search_key}}"
+          placeholder="검색하고 싶은 매장 이름을 입력하세요"
+        />
+        {% comment %} <h4>{{search_key}}</h4> {% endcomment %}
+        <span class="input-group-btn">
+          <input class="btn-btn-default" type="submit" value="Search" />
+        </span>
+      </div>
+    </div>
+  </div>
+<!--</form>
+
+{% comment %} 요청을 처리할 url {% endcomment %}
+<form action="{% url 'info_result' %}" method="GET" class="search-form">
+  {% csrf_token %} -->
+  <table>
+    <tbody>
+      <tr>
+        <th>
+          <div>분류</div>
+          <div>품목</div>
+          <div>시설정보</div>
+          <div>요일</div>
+        </th>
+        <td>
+          <div>
+            <div>
+              <input type="radio" name="category" value="종합생활용품" {% if '종합생활용품' in categories %} checked {% else %} '' {% endif %}>종합생활용품</input>
+              <input type="radio" name="category" value="공방" {% if '공방' in categories %} checked {% else %} '' {% endif %}>공방</input>
+              <input type="radio" name="category" value="카페" {% if '카페' in categories %} checked {% else %} '' {% endif %}>카페</input>
+              <input type="radio" name="category" value="서점" {% if '서점' in categories %} checked {% else %} '' {% endif %}>서점</input>
+              <input type="radio" name="category" value="식료품" {% if '식료품' in categories %} checked {% else %} '' {% endif %}>식료품</input>
+              <input type="radio" name="category" value="화장품" {% if '화장품' in categories %} checked {% else %} '' {% endif %}>화장품</input>
+            </div>
+            <div>
+
+              <input type="checkbox" name="subject" value="#욕실" {% if '#욕실' in subjects %} checked {% else %} '' {% endif %}>욕실</input>
+              <input type="checkbox" name="subject" value="#주방" {% if '#주방' in subjects %} checked {% else %} '' {% endif %}>주방</input>
+              <input type="checkbox" name="subject" value="#리필" {% if '#리필' in subjects %} checked {% else %} '' {% endif %}>리필</input>
+              <input type="checkbox" name="subject" value="#공방" {% if '#공방' in subjects %} checked {% else %} '' {% endif %}>공방</input>
+              <input type="checkbox" name="subject" value="#카페" {% if '#카페' in subjects %} checked {% else %} '' {% endif %}>카페</input>
+              <input type="checkbox" name="subject" value="#식료품" {% if '#식료품' in subjects %} checked {% else %} '' {% endif %}>식료품</input>
+              <input type="checkbox" name="subject" value="#수거" {% if '#수거' in subjects %} checked {% else %} '' {% endif %}>수거</input>
+              <input type="checkbox" name="subject" value="#악세사리" {% if '#악세사리' in subjects %} checked {% else %} '' {% endif %}>악세사리</input>
+              <input type="checkbox" name="subject" value="#의류" {% if '#의류' in subjects %} checked {% else %} '' {% endif %}>의류</input>
+              <input type="checkbox" name="subject" value="#화장품" {% if '#화장품' in subjects %} checked {% else %} '' {% endif %}>화장품</input>
+              <input type="checkbox" name="subject" value="#문구" {% if '#문구' in subjects %} checked {% else %} '' {% endif %}>문구</input>
+              <input type="checkbox" name="subject" value="#위생" {% if '#위생' in subjects %} checked {% else %} '' {% endif %}>위생</input>
+              <input type="checkbox" name="subject" value="#도서" {% if '#도서' in subjects %} checked {% else %} '' {% endif %}>도서</input>
+              <input type="checkbox" name="subject" value="#가전" {% if '#가전' in subjects %} checked {% else %} '' {% endif %}>가전</input>
+            </div>
+            <div>
+              <input type="checkbox" name="facility" value="#WIFI" {% if '#WIFI' in facilities %} checked {% else %} '' {% endif %}>WIFI</input>
+              <input type="checkbox" name="facility" value="#주차" {% if '#주차' in facilities %} checked {% else %} '' {% endif %}>주차</input>
+              <input type="checkbox" name="facility" value="#반려동물동반" {% if '#반려동물동반' in facilities %} checked {% else %} '' {% endif %}>반려동물동반</input>
+              <input type="checkbox" name="facility" value="#예약" {% if '#예약' in facilities %} checked {% else %} '' {% endif %}>예약</input>
+              <input type="checkbox" name="facility" value="#포장" {% if '#포장' in facilities %} checked {% else %} '' {% endif %}>포장</input>
+              <input type="checkbox" name="facility" value="#남/녀화장실구분" {% if '#남/녀화장실구분' in facilities %} checked {% else %} '' {% endif %}>남/녀화장실구분</input>
+              <input type="checkbox" name="facility" value="#단체석" {% if '#단체석' in facilities %} checked {% else %} '' {% endif %}>단체석</input>
+              <input type="checkbox" name="facility" value="#장애인편의시설" {% if '#장애인편의시설' in facilities %} checked {% else %} '' {% endif %}>장애인편의시설</input>
+              <input type="checkbox" name="facility" value="#방문접수/출장" {% if '#방문접수/출장' in facilities %} checked {% else %} '' {% endif %}>방문접수/출장</input>
+              <input type="checkbox" name="facility" value="#배달" {% if '#배달' in facilities %} checked {% else %} '' {% endif %}>배달</input>
+              <input type="checkbox" name="facility" value="#유아놀이방" {% if '#유아놀이방' in facilities %} checked {% else %} '' {% endif %}>유아놀이방</input>
+              <input type="checkbox" name="facility" value="#발렛파킹" {% if '#발렛파킹' in facilities %} checked {% else %} '' {% endif %}>발렛파킹</input>
+            </div>
+            <div>
+              <input type="checkbox" name="day" value="day_mon" {% if 'day_mon' in days %} checked {% else %} '' {% endif %}>월요일</input>
+              <input type="checkbox" name="day" value="day_tue" {% if 'day_tue' in days %} checked {% else %} '' {% endif %}>화요일</input>
+              <input type="checkbox" name="day" value="day_wed" {% if 'day_wed' in days %} checked {% else %} '' {% endif %}>수요일</input>
+              <input type="checkbox" name="day" value="day_thu" {% if 'day_thu' in days %} checked {% else %} '' {% endif %}>목요일</input>
+              <input type="checkbox" name="day" value="day_fri" {% if 'day_fri' in days %} checked {% else %} '' {% endif %}>금요일</input>
+              <input type="checkbox" name="day" value="day_sat" {% if 'day_sat' in days %} checked {% else %} '' {% endif %}>토요일</input>
+              <input type="checkbox" name="day" value="day_sun" {% if 'day_sun' in days %} checked {% else %} '' {% endif %}>일요일</input>
+            </div>
+            <div id='result'></div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>
+<br />
+{% for info in info_list %}
+<a href="{% url 'shop_detail' info.id %}">
+  <div class="card w-50">
+    <div class="card-body">
+      <h5 class="card-title">{{ info.name }}</h5>
+      <p class="card-text">{{ info.address }}</p>
+      <p class="card-text">{{ info.tel }}</p>
+    </div>
+  </div><br>
+</a>
+{% endfor %}
+
+{% for info in all %}
+<a href="{% url 'shop_detail' info.id %}">
+  <div class="card w-75">
+    <div class="card-body">
+      <h5 class="card-title">{{ info.name }}</h5>
+      <p class="card-text">{{ info.address }}</p>
+      <p class="card-text">{{ info.tel }}</p>
+    </div>
+  </div><br>
+</a>
+{% endfor %}
+{% endblock %}

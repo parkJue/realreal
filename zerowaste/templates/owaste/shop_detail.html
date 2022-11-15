@@ -1,0 +1,94 @@
+{% extends 'owaste/base.html' %} {% load django_bootstrap5 %} {% load static
+%} {% block content %}
+
+<div class="row">
+  <div id="info_list_search" class="col-md-12">
+    <img src="{{shop_detail.img}}" height="200" width="200" />
+    <h2 style="color: red">{{ shop_detail.name }}</h2>
+    <h3>{{shop_detail.category}}</h3>
+    <h4>주소 : {{shop_detail.address}}</h4>
+    <h4>전화번호 : {{shop_detail.tel}}</h4>
+    <h4>카테고리 : {{shop_detail.category}}</h4>
+    <h4>상세정보 : {{shop_detail.subject}}</h4>
+    <h4>시설정보 : {{shop_detail.facility}}</h4>
+    {% if shop_detail.page3 == '' %} {% if shop_detail.page2 == '' %}
+    <h4>페이지1 : {{shop_detail.page1}}</h4>
+    {% else %}
+    <h4>페이지1 : {{shop_detail.page1}}</h4>
+    <h4>페이지2 : {{shop_detail.page2}}</h4>
+    {% endif %} {% else %}
+    <h4>페이지1 : {{shop_detail.page1}}</h4>
+    <h4>페이지2 : {{shop_detail.page2}}</h4>
+    <h4>페이지3 : {{shop_detail.page3}}</h4>
+    {% endif %}
+
+    <h4>월요일 : {{shop_detail.mon}}</h4>
+    <h4>화요일 : {{shop_detail.tue}}</h4>
+    <h4>수요일 : {{shop_detail.wed}}</h4>
+    <h4>목요일 : {{shop_detail.thu}}</h4>
+    <h4>금요일 : {{shop_detail.fri}}</h4>
+    <h4>토요일 : {{shop_detail.sat}}</h4>
+    <h4>일요일 : {{shop_detail.sun}}</h4>
+    <br />
+  </div>
+</div>
+{% comment %}
+<form action="{% url 'articles:comments_create' article.pk %}" method="POST">
+  {% csrf_token %} {% bootstrap_form form %}
+  <button class="btn btn-primary">작성</button>
+</form>
+{% endcomment %}
+<button type="submit" class="btn btn-dark" onclick="location.href='{% url 'search_result' %}';">목록으로</button>
+
+{{ shop_detail.name }}
+<!-- 리뷰 (댓글)-->
+<div id="comment-area">
+  <div class="card my-4">
+    <div class="card-body">
+      <form
+        action="/owaste/detail/{{ shop_detail.pk }}/reviews/new/"
+        method="post"
+        novalidate
+      >
+        {% csrf_token %} {% bootstrap_form oreview_form %} 
+        <button type="submit" class="btn btn-primary">submit</button>
+
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div id="info_list_search" class="col-md-12">
+      {% for review in oreview_qs %}
+      <br />
+        <h4 style="color:blue">{{ review.source }}에서 작성된 리뷰입니다.</h4>
+        <h5> 닉네임 : {{ review.user.username }}</h5>
+        <p> 내용 : {{ review.content }} </p>
+        <span>
+          {{ review.register_date }}
+          <button type="edit" class="btn btn-dark" onclick="location.href='/owaste/detail/{{ shop_detail.pk }}/reviews/{{ review.pk }}/edit/';">edit</button>
+          <button type="delete" class="btn btn-danger" onclick="location.href='/owaste/detail/{{ shop_detail.pk }}/reviews/{{ review.pk }}/delete/';">delete</button>
+          <br />
+        </span>
+      {% endfor %}
+      <hr >
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div id="info_list_search" class="col-md-12">
+      {% for i in review_detail %} 
+        {% if i.source == '네이버맵' %}
+          <h4 style="color: green">{{ i.source }}에서 작성된 리뷰입니다.</h4>
+        {% else %}
+          <h4 style="color: yellow">{{ i.source }}에서 작성된 리뷰입니다.</h4>
+        {% endif %}
+        <h5>닉네임 : {{ i.nick }}</h5>
+        <p>내용 : {{ i.content }}</p>
+        <p>{{ i.reg_date }}</p>
+        <br />
+      {% endfor %}
+    </div>
+  </div>
+  {% endblock %}
+</div>

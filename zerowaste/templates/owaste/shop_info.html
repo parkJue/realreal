@@ -1,0 +1,39 @@
+{% extends 'owaste/base.html' %}
+{% block content %}
+
+<div class="row">
+  <div id="info_list_search" class="col-md-12">
+    {% for info in info_list %}
+      <img src="{{info.img}}" height="200" width="200" />
+      <h2 style="color: red">{{ info.name }}</h2>
+      <h4>주소 : {{info.address}}</h4>
+      <h4>전화번호 : {{info.tel}}</h4>
+      <h4>카테고리 : {{info.category}}</h4>
+      <h4>상세정보 : {{info.subject}}</h4>
+      <h4>시설정보 : {{info.facility}}</h4>
+      {% if info.page3 == None %} 
+        {% if info.page2 == None %}
+        <h4>페이지1 : {{info.page1}}</h4>
+        {% else %}
+          <h4>페이지1 : {{info.page1}}</h4>
+          <h4>페이지2 : {{info.page2}}</h4>
+        {% endif %} 
+      {% elif info.page3 != None %}
+        <h4>페이지1 : {{info.page1}}</h4>
+        <h4>페이지2 : {{info.page2}}</h4>
+        <h4>페이지3 : {{info.page3}}</h4>
+      {% endif %}
+      
+      <h4>월요일 : {{info.mon}}</h4>
+      <h4>화요일 : {{info.tue}}</h4>
+      <h4>수요일 : {{info.wed}}</h4>
+      <h4>목요일 : {{info.thu}}</h4>
+      <h4>금요일 : {{info.fri}}</h4>
+      <h4>토요일 : {{info.sat}}</h4>
+      <h4>일요일 : {{info.sun}}</h4>
+      <br />
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
