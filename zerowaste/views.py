@@ -2,7 +2,7 @@ from .models import Campaign, Shop, Member, Nkreview, Oreview, Ask
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from .forms import CommentForm, OreviewForm, ArticleForm
+from .forms import OreviewForm, ArticleForm
 
 info_list = Shop.objects.all().order_by('id')
 search_list = Shop.objects.all().order_by('id')
@@ -207,8 +207,6 @@ def shop_detail(request, id):
         form_1 = ArticleForm()
     # 복사
     shop_detail = get_object_or_404(Shop, pk=id)
-    # id와 똑같은 Nkreview 불러오기
-    # form = CommentForm()
 
     oreview_form = OreviewForm()
 
@@ -302,3 +300,4 @@ def review_delete(request, shop_pk, pk):
         'form_1' : form_1
         
     })
+

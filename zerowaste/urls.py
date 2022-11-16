@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('index/', views.index),                        # 01. /owaste/index
+    path('index/', views.index, name='main_index'),                        # 01. /owaste/index
     path('campaign_list/', views.campaign_list),        # 04. /owaste/campaign_list
     path('shop_search/', views.search, name='search_result'),
     path('shop_info/', views.info, name="info_result"),

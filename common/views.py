@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login
 from common.forms import UserForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import update_session_auth_hash, logout
 from django.contrib.auth.forms import PasswordChangeForm
 from common.models import Profile
 from zerowaste.forms import ArticleForm
@@ -12,6 +12,8 @@ from zerowaste.models import Oreview, Shop
 from zerowaste.forms import OreviewForm
 from django.db.models import Q
 from django.contrib.auth import get_user_model
+from django.views.decorators.http import require_POST
+
 
 # 회원가입
 def signup(request):
@@ -96,3 +98,10 @@ def change_password(request):
     return render(request, 'common/change_password.html', {
         'form': form, 'form_1' : form_1
     })
+
+@login_required
+def delete(request):
+    if request.user.is_authenticated:
+        request.user.delete()
+        logout(request)
+    return redirect('/owaste/index')

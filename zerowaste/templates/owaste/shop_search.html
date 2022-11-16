@@ -1,6 +1,10 @@
 {% extends 'owaste/base.html' %} {% load django_bootstrap5 %} {% load static
-  %} {% block content %}
+  %} 
 
+  {% block content %}
+  <style>
+  </style>
+  
       <!-- content 시작 -->
 
       <br>
@@ -49,7 +53,7 @@
       <div class="col">
       </div>
       <div class="col-9">
-  <table>
+  <table class="table table-primary">
     <tbody>
       <tr>
         <th>
@@ -59,9 +63,9 @@
           <div>요일</div>
         </th>
         <td>
-          <div>
+          <div style="font-size:1em">
             <div>
-              <input type="radio" name="category" value="종합생활용품" {% if '종합생활용품' in categories %} checked {% else %} '' {% endif %}>종합생활용품</input>
+              <input type="radio" name="category" value="종합생활용품" {% if '종합생활용품' in categories %} checked {% else %} '' {% endif %}>종합생활용품
               <input type="radio" name="category" value="공방" {% if '공방' in categories %} checked {% else %} '' {% endif %}>공방</input>
               <input type="radio" name="category" value="카페" {% if '카페' in categories %} checked {% else %} '' {% endif %}>카페</input>
               <input type="radio" name="category" value="서점" {% if '서점' in categories %} checked {% else %} '' {% endif %}>서점</input>
@@ -70,7 +74,8 @@
             </div>
             <div>
 
-              <input type="checkbox" name="subject" value="#욕실" {% if '#욕실' in subjects %} checked {% else %} '' {% endif %}>욕실</input>
+                <input type="checkbox" name="subject" value="#욕실" {% if '#욕실' in subjects %} checked {% else %} '' {% endif %}>욕실
+
               <input type="checkbox" name="subject" value="#주방" {% if '#주방' in subjects %} checked {% else %} '' {% endif %}>주방</input>
               <input type="checkbox" name="subject" value="#리필" {% if '#리필' in subjects %} checked {% else %} '' {% endif %}>리필</input>
               <input type="checkbox" name="subject" value="#공방" {% if '#공방' in subjects %} checked {% else %} '' {% endif %}>공방</input>
@@ -142,7 +147,6 @@
                               <h4 class="card-title"><span style="color:#2b2222e0"><b>{{ info.name }}</b></span></h4>
                               <h6 class="card-text"><span style="color:#9E9E9E">주소: </span><span style="color:#3498DB">{{ info.address }}</span></h6>
                               <h6 class="card-text"><span style="color:#9E9E9E">전화번호: </span><span style="color:#3498DB">{{ info.tel }}</span></h6>
-                              <h6 class="card-text"><span style="color:#9E9E9E">리뷰: </span><span style="color:#3498DB">{{ info.tel.count }}</span></h6></a>
                             </td>
 
                             <td style="width:25%;">
@@ -236,5 +240,7 @@
 <div class="col">
 </div>
 </div>
+<script>
 
+</script>
 {% endblock %}

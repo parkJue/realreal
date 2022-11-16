@@ -1,27 +1,32 @@
 {% extends 'owaste/base.html' %} {% load django_bootstrap5 %} {% load static
-%} {% block content %}
-
-    <!-- content 시작 -->
-    <br>
-    <br>
-    
-    <h1 style="text-align:center;color:#3498DB;">{{ shop_detail.name }}</h1>
-    <h3 style="text-align:center;color:#9E9E9E;">{{shop_detail.category}}</h3>
-
-<section class="py-5 text-center container">
-
-  <div id="info_list_search" class="col-md-12">
-    {% if shop_detail.img == '' %}
-    <img src="/static/img/ready.gif" style="height: auto; width:400px;" />
-    {% else %}
-    <img src="{{shop_detail.img}}" style="height: auto; width:600px;" />
-    {% endif %}
-  </div>
-
-  <div class="p-4 p-md-5 mb-4 rounded text-bg-white">
-
-    <!--테이블 시작-->
-    <table style="width:50%; height: 100px; margin: auto; text-align: center;">
+  %} {% block content %}
+  <style>
+    img {
+      {% comment %} float:left {% endcomment %}
+      margin-left: 25%;
+    }
+    #plz{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+  <!-- content 시작 -->
+  
+  <h1 style="text-align:center;color:#3498DB;">{{ shop_detail.name }}</h1>
+  <h3 style="text-align:center;color:#9E9E9E;">{{shop_detail.category}}</h3>
+  
+  <div id="plz" class="py-5 text-center container">
+    <div>
+      {% if shop_detail.img == '' %}
+      <img src="/static/img/ready.gif" style="height: auto; width:400px;" />
+      {% else %}
+      <img src="{{shop_detail.img}}" style="height: auto; width:550px;" />
+      {% endif %}
+    </div>
+  
+        <!--테이블 시작-->
+    <table style="width:50%; height: 100%; margin-left: 15%;">
       <tr>
         <td align=Left style="width:60%;">
           <h4>주소 : {{shop_detail.address}}</h4>
@@ -49,100 +54,86 @@
         </td>
       </tr>
     </table>
-    <!--테이블 끝-->
-
-    <!--테이블 시작-->
-    <table style="width:70%; height: 100px; margin: auto; text-align: center;">
-      <tr>
-        <td align=right style="width:50%;">
-         <button type="submit" class="btn btn-dark pull-right" onclick="location.href='{% url 'search_result' %}';">목록으로</button>
-        </td>
-      </tr>
-    </table>
-    <!--테이블 끝-->
-
-{% comment %}
-
-<!--테이블 시작-->
-<table style="width:40%; height: 100px; margin: auto; text-align: center;">
-  <tr>
-    <td align=right style="width:60%;">
+  </div>
+      <!--테이블 끝-->
       
-<form action="{% url 'articles:comments_create' article.pk %}" method="POST">
-  {% csrf_token %} {% bootstrap_form form %}
-  <button class="btn btn-primary">작성</button>
-</form>
-
-    </td>
-  </tr>
-</table>
-
- <!--테이블 끝-->
-
-{% endcomment %}
-
-<!--테이블 시작-->
-<table style="width:70%; height: 100px; margin: auto; text-align: center;">
-  <tr>
-    <td align=left style="width:60%;">
-
-<!-- 리뷰 (댓글)-->
-<div id="comment-area">
-  <div class="card my-4">
-    <div class="card-body">
-      <form
-        action="/owaste/detail/{{ shop_detail.pk }}/reviews/new/"
-        method="post"
-        novalidate
-      >
-        {% csrf_token %} {% bootstrap_form oreview_form %} 
-        <div id="info_list_search" class="d-grid gap-2 d-md-flex justify-content-md-start">
-        <button type="submit" class="btn btn-primary">작성하기</button>
+      <section class="py-5 text-center container">
+  
+      <!--테이블 시작-->
+      <table style="width:70%; height: 100px; margin: auto; text-align: center;">
+        <tr>
+          <td align=right style="width:50%;">
+           <button type="submit" class="btn btn-dark pull-right" onclick="location.href='{% url 'search_result' %}';">목록으로</button>
+          </td>
+        </tr>
+      </table>
+      <!--테이블 끝-->
+  <!--테이블 시작-->
+  <table style="width:70%; height: 100px; margin: auto; text-align: center;">
+    <tr>
+      <td align=left style="width:60%;">
+  
+  <!-- 리뷰 (댓글)-->
+  <div id="comment-area">
+    <div class="card my-4">
+      <div class="card-body">
+        <form
+          action="/owaste/detail/{{ shop_detail.pk }}/reviews/new/"
+          method="post"
+          novalidate
+        >
+          {% csrf_token %} {% bootstrap_form oreview_form %} 
+          <div id="info_list_search" class="d-grid gap-2 d-md-flex justify-content-md-start">
+          <button type="submit" class="btn btn-primary">작성하기</button>
+        </div>
+        </form>
       </div>
-      </form>
     </div>
-  </div>
-  <div class="row">
-    <div id="info_list_search" class="col-md-12">
-      {% for review in oreview_qs %}
-      <br />
-        <h6><span style="color:#c0c0c0">{{ review.register_date }}</span></h6>
-        <h5><span style="color:#3498DB">{{ review.source }}에서 작성된 리뷰입니다.</span></h5>
-        <h4>{{ review.user.username }}</h4>
-        <h5><span style="color:#9E9E9E">{{ review.content }}</span></h5>
-        <span>
-          <div id="info_list_search" class="d-grid gap-2 d-md-flex justify-content-md-end">
-          <button type="edit" class="btn btn-warning" onclick="location.href='/owaste/detail/{{ shop_detail.pk }}/reviews/{{ review.pk }}/edit/';"><span style="color:rgb(255, 255, 255)">수정하기</span></button>
-          <button type="delete" class="btn btn-danger" onclick="location.href='/owaste/detail/{{ shop_detail.pk }}/reviews/{{ review.pk }}/delete/';">삭제하기</button>
-          </div>
-        </span>
-      {% endfor %}
-      <hr >
+    <div class="row">
+      <div id="info_list_search" class="col-md-12">
+        {% for review in oreview_qs %}
+          <br />
+          <h6><span style="color:#c0c0c0">{{ review.register_date }}</span></h6>
+          <h5><span style="color:#3498DB">{{ review.source }}에서 작성된 리뷰입니다.</span></h5>
+          <h4>{{ review.user.username }}</h4>
+          <h5><span style="color:#9E9E9E">{{ review.content }}</span></h5>
+          {% if review.user.id == user.id %}
+            <span>
+              <div id="info_list_search" class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="edit" class="btn btn-warning" onclick="location.href='/owaste/detail/{{ shop_detail.pk }}/reviews/{{ review.pk }}/edit/';"><span style="color:rgb(255, 255, 255)">수정하기</span></button>
+                <button type="delete" class="btn btn-danger" aria-pressed="true" onclick="location.href='/owaste/detail/{{ shop_detail.pk }}/reviews/{{ review.pk }}/delete/';">삭제하기</button>
+              
+              </div>
+          </span>
+          {% endif %}
+            
+        {% endfor %}
+        <hr >
+      </div>
     </div>
-  </div>
-
-
-  <div class="row">
-    <div id="info_list_search" class="col-md-12">
-      <br>
-      {% for i in review_detail %} 
-        {% if i.source == '네이버맵' %}
-        <h6><span style="color:#c0c0c0">{{ i.reg_date }}</span></h6>
-        <h5><span style="color:rgb(34, 213, 49)">{{ i.source }}에서 작성된 리뷰입니다.</span></h5>
-        {% else %}
-        <h5><span style="color:rgba(255, 225, 0, 0.965)">{{ i.source }}에서 작성된 리뷰입니다.</span></h5>
-        {% endif %}
-        <h4>{{ i.nick }}</h4>
-        <h5><span style="color:#9E9E9E">{{ i.content }}</span></h5>
-        <br />
-      {% endfor %}
+  
+  
+    <div class="row">
+      <div id="info_list_search" class="col-md-12">
+        <br>
+        {% for i in review_detail %} 
+          {% if i.source == '네이버맵' %}
+          <h6><span style="color:#c0c0c0">{{ i.reg_date }}</span></h6>
+          <h5><span style="color:rgb(34, 213, 49)">{{ i.source }}에서 작성된 리뷰입니다.</span></h5>
+          {% else %}
+          <h5><span style="color:rgba(255, 225, 0, 0.965)">{{ i.source }}에서 작성된 리뷰입니다.</span></h5>
+          {% endif %}
+          <h4>{{ i.nick }}</h4>
+          <h5><span style="color:#9E9E9E">{{ i.content }}</span></h5>
+          <br />
+        {% endfor %}
+      </div>
     </div>
-  </div>
-</section>
-  {% endblock %}
-
-</td>
-</tr>
-</table>
-
-<!--테이블 끝-->
+  </section>
+    {% endblock %}
+  
+  </td>
+  </tr>
+  </table>
+  
+  <!--테이블 끝-->

@@ -24,9 +24,7 @@
 <img src = "/static/img/profileimg.jpeg" style="width:20%; margin-left: auto; margin-right: auto; display: block;" />
 <div id = "lf" class="d-grid gap-2 col-1 mx-auto">
     <a id="btn" href="{% url 'common:change_password' %}"><button class="btn btn-primary" type="button">비밀번호 변경</button></a>
-</div>
-{% comment %} <div id = "lf" class="d-grid gap-2 col-1 mx-auto">
-</div> {% endcomment %}
+    <a id="btn" href="{% url 'common:delete_success' %}"><button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" >회원 탈퇴</button></a>
 <br />
 </div>
 
@@ -41,6 +39,7 @@
             <h3><span style="color:#3498DB">{{ shop.name }}</span></h3>
             <span style="color:#9E9E9E">{% for review in review_list %}
                 {{ review }}
+                <br >
             {% endfor %}</span>
             <hr>
         {% endfor %}
