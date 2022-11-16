@@ -1,11 +1,19 @@
 {% extends 'owaste/base.html' %} {% load django_bootstrap5 %} {% load static
 %} {% block content %}
 
-<div class="row">
+    <!-- content 시작 -->
+    <br>
+    <br>
+    <h1 style="text-align:center;color:#3498DB;">{{ shop_detail.name }}</h1>
+    <h3 style="text-align:center;color:#9E9E9E;">{{shop_detail.category}}</h3>
+
+<section class="py-5 text-center container">
+
   <div id="info_list_search" class="col-md-12">
-    <img src="{{shop_detail.img}}" height="200" width="200" />
-    <h2 style="color: red">{{ shop_detail.name }}</h2>
-    <h3>{{shop_detail.category}}</h3>
+    <img src="{{shop_detail.img}}" style="height: auto; width:500px;" />
+  </div>
+
+  <div class="p-4 p-md-5 mb-4 rounded text-bg-white">
     <h4>주소 : {{shop_detail.address}}</h4>
     <h4>전화번호 : {{shop_detail.tel}}</h4>
     <h4>카테고리 : {{shop_detail.category}}</h4>
@@ -21,7 +29,6 @@
     <h4>페이지2 : {{shop_detail.page2}}</h4>
     <h4>페이지3 : {{shop_detail.page3}}</h4>
     {% endif %}
-
     <h4>월요일 : {{shop_detail.mon}}</h4>
     <h4>화요일 : {{shop_detail.tue}}</h4>
     <h4>수요일 : {{shop_detail.wed}}</h4>
@@ -29,18 +36,21 @@
     <h4>금요일 : {{shop_detail.fri}}</h4>
     <h4>토요일 : {{shop_detail.sat}}</h4>
     <h4>일요일 : {{shop_detail.sun}}</h4>
-    <br />
+
+    <p><br></p>
+
+    <button type="submit" class="btn btn-dark pull-right" onclick="location.href='{% url 'search_result' %}';">목록으로</button>
   </div>
-</div>
+
 {% comment %}
+
 <form action="{% url 'articles:comments_create' article.pk %}" method="POST">
   {% csrf_token %} {% bootstrap_form form %}
   <button class="btn btn-primary">작성</button>
 </form>
-{% endcomment %}
-<button type="submit" class="btn btn-dark" onclick="location.href='{% url 'search_result' %}';">목록으로</button>
 
-{{ shop_detail.name }}
+{% endcomment %}
+
 <!-- 리뷰 (댓글)-->
 <div id="comment-area">
   <div class="card my-4">
@@ -51,8 +61,9 @@
         novalidate
       >
         {% csrf_token %} {% bootstrap_form oreview_form %} 
-        <button type="submit" class="btn btn-primary">submit</button>
-
+        <div id="info_list_search" class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <button type="submit" class="btn btn-primary">작성하기</button>
+      </div>
       </form>
     </div>
   </div>
@@ -60,14 +71,15 @@
     <div id="info_list_search" class="col-md-12">
       {% for review in oreview_qs %}
       <br />
-        <h4 style="color:blue">{{ review.source }}에서 작성된 리뷰입니다.</h4>
-        <h5> 닉네임 : {{ review.user.username }}</h5>
-        <p> 내용 : {{ review.content }} </p>
+        <h5><span style="color:#3498DB">{{ review.source }}</span>에서 작성된 리뷰입니다.</h5>
+        <h5>닉네임 : {{ review.user.username }}</h5>
+        <h5>내용 : {{ review.content }}</h5>
+        <h5>날짜 : {{ review.register_date }}</h5>
         <span>
-          {{ review.register_date }}
-          <button type="edit" class="btn btn-dark" onclick="location.href='/owaste/detail/{{ shop_detail.pk }}/reviews/{{ review.pk }}/edit/';">edit</button>
-          <button type="delete" class="btn btn-danger" onclick="location.href='/owaste/detail/{{ shop_detail.pk }}/reviews/{{ review.pk }}/delete/';">delete</button>
-          <br />
+          <div id="info_list_search" class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button type="edit" class="btn btn-warning" onclick="location.href='/owaste/detail/{{ shop_detail.pk }}/reviews/{{ review.pk }}/edit/';"><span style="color:rgb(255, 255, 255)">수정하기</span></button>
+          <button type="delete" class="btn btn-danger" onclick="location.href='/owaste/detail/{{ shop_detail.pk }}/reviews/{{ review.pk }}/delete/';">삭제하기</button>
+          </div>
         </span>
       {% endfor %}
       <hr >
@@ -79,16 +91,16 @@
     <div id="info_list_search" class="col-md-12">
       {% for i in review_detail %} 
         {% if i.source == '네이버맵' %}
-          <h4 style="color: green">{{ i.source }}에서 작성된 리뷰입니다.</h4>
+        <h5><span style="color:green">{{ i.source }}</span>에서 작성된 리뷰입니다.</h5>
         {% else %}
-          <h4 style="color: yellow">{{ i.source }}에서 작성된 리뷰입니다.</h4>
+        <h5><span style="color:rgba(255, 225, 0, 0.965)">{{ i.source }}</span>에서 작성된 리뷰입니다.</h5>
         {% endif %}
         <h5>닉네임 : {{ i.nick }}</h5>
-        <p>내용 : {{ i.content }}</p>
-        <p>{{ i.reg_date }}</p>
+        <h5>내용 : {{ i.content }}</h5>
+        <h5>날짜 : {{ i.reg_date }}</h5>
         <br />
       {% endfor %}
     </div>
   </div>
+</section>
   {% endblock %}
-</div>

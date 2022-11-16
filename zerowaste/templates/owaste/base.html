@@ -61,15 +61,17 @@
               </div>
               <br>
               <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">이메일 주소</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">내용</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-              </div>
-              <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button class="btn btn-primary me-md-2" type="button">제출하기</button>
+                {% load django_bootstrap5 %}
+
+                <form action="" method='POST'>
+                    {% csrf_token %}
+                    <table>
+                      {% bootstrap_form form_1 %}
+                    </table>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button class="btn btn-primary pull-right" type="submit">제출하기</button>
+                    </div>
+                </form>
               </div>
             </div>
           </div>

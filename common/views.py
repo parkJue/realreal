@@ -5,11 +5,24 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-
 from common.models import Profile
+from zerowaste.forms import ArticleForm
 
 
+
+
+
+# 회원가입
 def signup(request):
+    # 복사
+    if request.method == 'POST':
+        form_1 = ArticleForm(request.POST)
+        if form_1.is_valid():
+            article = form_1.save()
+            return redirect('/')
+    else:
+        form_1 = ArticleForm()
+    # 복사
     if request.method == "POST":
         form = UserForm(request.POST)
         if form.is_valid():
@@ -23,16 +36,34 @@ def signup(request):
             return redirect('/owaste/index')
     else:
         form = UserForm()
-    return render(request, 'common/signup.html', {'form': form})
+    return render(request, 'common/signup.html', {'form': form, 'form_1' : form_1})
 
 # 프로필
 @login_required
 def profile(request):
-    return render(request, "common/profile.html")
+    # 복사
+    if request.method == 'POST':
+        form_1 = ArticleForm(request.POST)
+        if form_1.is_valid():
+            article = form_1.save()
+            return redirect('/')
+    else:
+        form_1 = ArticleForm()
+    # 복사
+    return render(request, "common/profile.html", {'form_1' : form_1})
 
 # 비밀번호 변경
 @login_required
 def change_password(request):
+    # 복사
+    if request.method == 'POST':
+        form_1 = ArticleForm(request.POST)
+        if form_1.is_valid():
+            article = form_1.save()
+            return redirect('/')
+    else:
+        form_1 = ArticleForm()
+    # 복사
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
@@ -45,5 +76,5 @@ def change_password(request):
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'common/change_password.html', {
-        'form': form
+        'form': form, 'form_1' : form_1
     })

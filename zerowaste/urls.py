@@ -12,5 +12,6 @@ urlpatterns = [
          views.review_new, name='review_new'),
     path('detail/<int:shop_pk>/reviews/<int:pk>/edit/',
          views.review_edit, name='review_edit'),
-    path('detail/<int:shop_pk>/reviews/<int:pk>/delete/', views.review_delete, name='review_delete')
+    path('detail/<int:shop_pk>/reviews/<int:pk>/delete/', views.review_delete, name='review_delete'),
+    path('base/', views.create),
 ]

@@ -1,56 +1,82 @@
 from .models import Campaign, Shop, Member, Nkreview, Oreview, Ask
-from .forms import AskForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from .forms import CommentForm, OreviewForm
+from .forms import CommentForm, OreviewForm, ArticleForm
 
 info_list = Shop.objects.all().order_by('id')
 search_list = Shop.objects.all().order_by('id')
 Nkreview_list = Nkreview.objects.all().order_by('id')
 
 # 문의하기
-def ask_new(request):
-    if request.method == "POST":
-        form = AskForm(request.POST)
+from .forms import ArticleForm
+
+def create(request):
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
         if form.is_valid():
-            ask = form.save()
-            # return redirect(f"/diary/{memory.pk}/")
-            # return redirect(memory.get_absolute_url())
-            return redirect(ask)
+            article = form.save()
+            return redirect('/')
     else:
-        form = AskForm()
-
-    return render(request, "owaste/index.html", {
-        "form": form,
-    })
-
+        form = ArticleForm()
+    context = {
+        'form' : form
+    }
+    return render(request, 'owaste/base.html', context)
 
 # index
 def index(request):
+    # 복사
+    if request.method == 'POST':
+        form_1 = ArticleForm(request.POST)
+        if form_1.is_valid():
+            article = form_1.save()
+            return redirect('/')
+    else:
+        form_1 = ArticleForm()
+    # 복사
     shop_map = Shop.objects.all().order_by('-id')
     return render(
         request,
         'owaste/index.html',
         {
-            'shop_map' : shop_map
+            'shop_map' : shop_map,
+            'form_1' : form_1
         }
     )
 
 # campaign_list
 
 def campaign_list(request):
+    # 복사
+    if request.method == 'POST':
+        form_1 = ArticleForm(request.POST)
+        if form_1.is_valid():
+            article = form_1.save()
+            return redirect('/')
+    else:
+        form_1 = ArticleForm()
+    # 복사
     campaign_list = Campaign.objects.all().order_by('-id')
     return render(
         request,
         'owaste/campaign_list.html',
         {
-            'campaign_list' : campaign_list
+            'campaign_list' : campaign_list,
+            'form_1' : form_1
         }
     )
 
 def search(request):
-
+    # 복사
+    if request.method == 'POST':
+        form_1 = ArticleForm(request.POST)
+        if form_1.is_valid():
+            article = form_1.save()
+            return redirect('/')
+    else:
+        form_1 = ArticleForm()
+    # 복사
     info_list = Shop.objects.all().order_by('id')
     search_list = []
     search_key = request.GET.get('search_key', '')
@@ -129,10 +155,20 @@ def search(request):
                                                           'categories': category_one,
                                                           'subjects': subject,
                                                           'facilities': facility,
-                                                          'days': day})
+                                                          'days': day,
+            'form_1' : form_1})
 
 
 def info(request):
+    # 복사
+    if request.method == 'POST':
+        form_1 = ArticleForm(request.POST)
+        if form_1.is_valid():
+            article = form_1.save()
+            return redirect('/')
+    else:
+        form_1 = ArticleForm()
+    # 복사
     all = []
     category_one = request.GET.get('category', None)
     subject_list = request.GET.getlist('subject', None)
@@ -156,10 +192,20 @@ def info(request):
     for product in products:
         all.append(product)
     print('all : ', all)
-    return render(request, 'owaste/shop_search.html', {'all': all})
+    return render(request, 'owaste/shop_search.html', {'all': all,
+            'form_1' : form_1})
 
 
 def shop_detail(request, id):
+    # 복사
+    if request.method == 'POST':
+        form_1 = ArticleForm(request.POST)
+        if form_1.is_valid():
+            article = form_1.save()
+            return redirect('/')
+    else:
+        form_1 = ArticleForm()
+    # 복사
     shop_detail = get_object_or_404(Shop, pk=id)
     # id와 똑같은 Nkreview 불러오기
     # form = CommentForm()
@@ -176,12 +222,22 @@ def shop_detail(request, id):
         'oreview_form': oreview_form,
         'oreview_qs': oreview_qs,
         'review_detail': review_detail,
+            'form_1' : form_1
     }
     return render(request, 'owaste/shop_detail.html', context)
 
 
 @login_required
 def review_new(request, shop_pk):
+    # 복사
+    if request.method == 'POST':
+        form_1 = ArticleForm(request.POST)
+        if form_1.is_valid():
+            article = form_1.save()
+            return redirect('/')
+    else:
+        form_1 = ArticleForm()
+    # 복사
     shop = get_object_or_404(Shop, pk=shop_pk)
 
     if request.method == "POST":
@@ -201,6 +257,15 @@ def review_new(request, shop_pk):
 
 @login_required
 def review_edit(request, shop_pk, pk):
+    # 복사
+    if request.method == 'POST':
+        form_1 = ArticleForm(request.POST)
+        if form_1.is_valid():
+            article = form_1.save()
+            return redirect('/')
+    else:
+        form_1 = ArticleForm()
+    # 복사
     review = get_object_or_404(Oreview, pk=pk)
 
     if request.method == "POST":
@@ -212,11 +277,21 @@ def review_edit(request, shop_pk, pk):
         form = OreviewForm(instance=review)
 
     return render(request, "owaste/review_form.html", {
-        "form": form,
+        "form_1": form_1,
+        'form' : form
     })
 
 @login_required
 def review_delete(request, shop_pk, pk):
+    # 복사
+    if request.method == 'POST':
+        form_1 = ArticleForm(request.POST)
+        if form_1.is_valid():
+            article = form_1.save()
+            return redirect('/')
+    else:
+        form_1 = ArticleForm()
+    # 복사
     review = get_object_or_404(Oreview, pk=pk)
 
     if request.method == "POST":
@@ -224,4 +299,6 @@ def review_delete(request, shop_pk, pk):
         return redirect(f"/owaste/detail/{shop_pk}")
     return render(request, "owaste/review_confirm_delete.html", {
         "review": review,
+        'form_1' : form_1
+        
     })
