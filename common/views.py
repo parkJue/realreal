@@ -1,5 +1,4 @@
 from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
 from common.forms import UserForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -7,10 +6,12 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from common.models import Profile
 from zerowaste.forms import ArticleForm
-
-
-
-
+from collections import defaultdict
+from django.shortcuts import render, redirect, get_object_or_404
+from zerowaste.models import Oreview, Shop
+from zerowaste.forms import OreviewForm
+from django.db.models import Q
+from django.contrib.auth import get_user_model
 
 # 회원가입
 def signup(request):
@@ -38,7 +39,8 @@ def signup(request):
         form = UserForm()
     return render(request, 'common/signup.html', {'form': form, 'form_1' : form_1})
 
-# 프로필
+
+# 은주한테 받은 프로필
 @login_required
 def profile(request):
     # 복사
@@ -50,7 +52,23 @@ def profile(request):
     else:
         form_1 = ArticleForm()
     # 복사
-    return render(request, "common/profile.html", {'form_1' : form_1})
+    myreview_dict = defaultdict(list)
+
+    myreview_qs = Oreview.objects.filter(
+        user_id=request.user.id).select_related("shop")
+    for myreview in myreview_qs:
+        myreview_dict[myreview.shop].append(myreview)
+
+    # User = get_user_model()
+    # login_user = request.user  # User.objects.get(id=request.user.id)
+    # shop_qs = Shop.objects.filter(oreview__user=login_user)
+
+    context = {
+        'myreview_dict': dict(myreview_dict),
+        'form_1' : form_1
+        # 'shop_qs': shop_qs
+    }
+    return render(request, "common/profile.html", context)
 
 # 비밀번호 변경
 @login_required

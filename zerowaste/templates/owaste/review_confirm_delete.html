@@ -1,8 +1,22 @@
 {% extends 'owaste/base.html' %}
 {% block content %}
+
+      <!-- content 시작 -->
+
+
+      <br>
+      <h2 style="text-align:center;color:#3498DB;">정말로 삭제하시겠습니까?</h2>
+
+      <table style="width:70%; height: 100px; margin: auto; text-align: center;">
+        <tr>
+          <td>
+
 <form action="" method="post">
     {% csrf_token %}
-    Are you sure ?
-    <input type="submit" value="YES!!!!!!!!!!!!!" />
+    <input type="submit" value="네, 삭제하겠습니다." />
 </form>
+
+</td>
+</tr>
+</table>
 {% endblock %}
