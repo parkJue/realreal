@@ -4,52 +4,87 @@
     <!-- content 시작 -->
     <br>
     <br>
+    
     <h1 style="text-align:center;color:#3498DB;">{{ shop_detail.name }}</h1>
     <h3 style="text-align:center;color:#9E9E9E;">{{shop_detail.category}}</h3>
 
 <section class="py-5 text-center container">
 
   <div id="info_list_search" class="col-md-12">
-    <img src="{{shop_detail.img}}" style="height: auto; width:500px;" />
+    {% if shop_detail.img == '' %}
+    <img src="/static/img/ready.gif" style="height: auto; width:400px;" />
+    {% else %}
+    <img src="{{shop_detail.img}}" style="height: auto; width:600px;" />
+    {% endif %}
   </div>
 
   <div class="p-4 p-md-5 mb-4 rounded text-bg-white">
-    <h4>주소 : {{shop_detail.address}}</h4>
-    <h4>전화번호 : {{shop_detail.tel}}</h4>
-    <h4>카테고리 : {{shop_detail.category}}</h4>
-    <h4>상세정보 : {{shop_detail.subject}}</h4>
-    <h4>시설정보 : {{shop_detail.facility}}</h4>
-    {% if shop_detail.page3 == '' %} {% if shop_detail.page2 == '' %}
-    <h4>페이지1 : {{shop_detail.page1}}</h4>
-    {% else %}
-    <h4>페이지1 : {{shop_detail.page1}}</h4>
-    <h4>페이지2 : {{shop_detail.page2}}</h4>
-    {% endif %} {% else %}
-    <h4>페이지1 : {{shop_detail.page1}}</h4>
-    <h4>페이지2 : {{shop_detail.page2}}</h4>
-    <h4>페이지3 : {{shop_detail.page3}}</h4>
-    {% endif %}
-    <h4>월요일 : {{shop_detail.mon}}</h4>
-    <h4>화요일 : {{shop_detail.tue}}</h4>
-    <h4>수요일 : {{shop_detail.wed}}</h4>
-    <h4>목요일 : {{shop_detail.thu}}</h4>
-    <h4>금요일 : {{shop_detail.fri}}</h4>
-    <h4>토요일 : {{shop_detail.sat}}</h4>
-    <h4>일요일 : {{shop_detail.sun}}</h4>
 
-    <p><br></p>
+    <!--테이블 시작-->
+    <table style="width:50%; height: 100px; margin: auto; text-align: center;">
+      <tr>
+        <td align=Left style="width:60%;">
+          <h4>주소 : {{shop_detail.address}}</h4>
+          <h4>전화번호 : {{shop_detail.tel}}</h4>
+          <h4>카테고리 : {{shop_detail.category}}</h4>
+          <h4>상세정보 : {{shop_detail.subject}}</h4>
+          <h4>시설정보 : {{shop_detail.facility}}</h4>
+          {% if shop_detail.page3 == '' %} {% if shop_detail.page2 == '' %}
+          <h4>페이지1 : {{shop_detail.page1}}</h4>
+          {% else %}
+          <h4>페이지1 : {{shop_detail.page1}}</h4>
+          <h4>페이지2 : {{shop_detail.page2}}</h4>
+          {% endif %} {% else %}
+          <h4>페이지1 : {{shop_detail.page1}}</h4>
+          <h4>페이지2 : {{shop_detail.page2}}</h4>
+          <h4>페이지3 : {{shop_detail.page3}}</h4>
+          {% endif %}
+          <h4>월요일 : {{shop_detail.mon}}</h4>
+          <h4>화요일 : {{shop_detail.tue}}</h4>
+          <h4>수요일 : {{shop_detail.wed}}</h4>
+          <h4>목요일 : {{shop_detail.thu}}</h4>
+          <h4>금요일 : {{shop_detail.fri}}</h4>
+          <h4>토요일 : {{shop_detail.sat}}</h4>
+          <h4>일요일 : {{shop_detail.sun}}</h4>
+        </td>
+      </tr>
+    </table>
+    <!--테이블 끝-->
 
-    <button type="submit" class="btn btn-dark pull-right" onclick="location.href='{% url 'search_result' %}';">목록으로</button>
-  </div>
+    <!--테이블 시작-->
+    <table style="width:70%; height: 100px; margin: auto; text-align: center;">
+      <tr>
+        <td align=right style="width:50%;">
+         <button type="submit" class="btn btn-dark pull-right" onclick="location.href='{% url 'search_result' %}';">목록으로</button>
+        </td>
+      </tr>
+    </table>
+    <!--테이블 끝-->
 
 {% comment %}
 
+<!--테이블 시작-->
+<table style="width:40%; height: 100px; margin: auto; text-align: center;">
+  <tr>
+    <td align=right style="width:60%;">
+      
 <form action="{% url 'articles:comments_create' article.pk %}" method="POST">
   {% csrf_token %} {% bootstrap_form form %}
   <button class="btn btn-primary">작성</button>
 </form>
 
+    </td>
+  </tr>
+</table>
+
+ <!--테이블 끝-->
+
 {% endcomment %}
+
+<!--테이블 시작-->
+<table style="width:70%; height: 100px; margin: auto; text-align: center;">
+  <tr>
+    <td align=left style="width:60%;">
 
 <!-- 리뷰 (댓글)-->
 <div id="comment-area">
@@ -71,10 +106,10 @@
     <div id="info_list_search" class="col-md-12">
       {% for review in oreview_qs %}
       <br />
-        <h5><span style="color:#3498DB">{{ review.source }}</span>에서 작성된 리뷰입니다.</h5>
-        <h5>닉네임 : {{ review.user.username }}</h5>
-        <h5>내용 : {{ review.content }}</h5>
-        <h5>날짜 : {{ review.register_date }}</h5>
+        <h6><span style="color:#c0c0c0">{{ review.register_date }}</span></h6>
+        <h5><span style="color:#3498DB">{{ review.source }}에서 작성된 리뷰입니다.</span></h5>
+        <h4>{{ review.user.username }}</h4>
+        <h5><span style="color:#9E9E9E">{{ review.content }}</span></h5>
         <span>
           <div id="info_list_search" class="d-grid gap-2 d-md-flex justify-content-md-end">
           <button type="edit" class="btn btn-warning" onclick="location.href='/owaste/detail/{{ shop_detail.pk }}/reviews/{{ review.pk }}/edit/';"><span style="color:rgb(255, 255, 255)">수정하기</span></button>
@@ -89,18 +124,25 @@
 
   <div class="row">
     <div id="info_list_search" class="col-md-12">
+      <br>
       {% for i in review_detail %} 
         {% if i.source == '네이버맵' %}
-        <h5><span style="color:green">{{ i.source }}</span>에서 작성된 리뷰입니다.</h5>
+        <h6><span style="color:#c0c0c0">{{ i.reg_date }}</span></h6>
+        <h5><span style="color:rgb(34, 213, 49)">{{ i.source }}에서 작성된 리뷰입니다.</span></h5>
         {% else %}
-        <h5><span style="color:rgba(255, 225, 0, 0.965)">{{ i.source }}</span>에서 작성된 리뷰입니다.</h5>
+        <h5><span style="color:rgba(255, 225, 0, 0.965)">{{ i.source }}에서 작성된 리뷰입니다.</span></h5>
         {% endif %}
-        <h5>닉네임 : {{ i.nick }}</h5>
-        <h5>내용 : {{ i.content }}</h5>
-        <h5>날짜 : {{ i.reg_date }}</h5>
+        <h4>{{ i.nick }}</h4>
+        <h5><span style="color:#9E9E9E">{{ i.content }}</span></h5>
         <br />
       {% endfor %}
     </div>
   </div>
 </section>
   {% endblock %}
+
+</td>
+</tr>
+</table>
+
+<!--테이블 끝-->

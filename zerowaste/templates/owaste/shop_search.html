@@ -1,37 +1,54 @@
-{% extends 'owaste/base.html' %} 
-{% block content %}
+{% extends 'owaste/base.html' %} {% load django_bootstrap5 %} {% load static
+  %} {% block content %}
 
       <!-- content 시작 -->
-
 
       <br>
       <h2 style="text-align:center;color:#3498DB;">매장 정보를 확인해보세요!</h2>
       <h5 style="text-align:center;color:#9E9E9E;">지금 바로 당신이 찾는 매장을 필터링해드립니다!</h5>
+
+      <br>
       <br>
 
 <form action="{% url 'search_result' %}" method="GET">
-  <div class="row" style="margin-bottom: 15px">
-    <div class="col-lg-5">
-      <div class="input-group">
-        <input
-          type="text"
-          class="form-control"
-          name="search_key"
-          value="{{search_key}}"
-          placeholder="검색하고 싶은 매장 이름을 입력하세요"
-        />
-        {% comment %} <h4>{{search_key}}</h4> {% endcomment %}
-        <span class="input-group-btn">
-          <input class="btn-btn-default" type="submit" value="Search" />
-        </span>
+
+  <div class="container text-center" style="margin-bottom: 15px">
+
+    <div class="row">
+
+      <div class="col">
       </div>
-    </div>
+
+            <div class="col d-flex flex-row">
+              <input
+                type="text"
+                class="form-control"
+                name="search_key"
+                value="{{search_key}}"
+                placeholder="검색하고 싶은 매장 이름을 입력하세요."
+              />
+              &nbsp;
+              {% comment %} <h4>{{search_key}}</h4> {% endcomment %}
+                <input class="btn btn-primary" type="submit" value="검색하기" />
+            </div>
+            
+            <div class="col">
+            </div>
+
+      </div>
+
   </div>
+  <br>
 <!--</form>
 
 {% comment %} 요청을 처리할 url {% endcomment %}
 <form action="{% url 'info_result' %}" method="GET" class="search-form">
   {% csrf_token %} -->
+  <div class="container text-left">
+    <div class="row">
+      <div class="col">
+      </div>
+      <div class="col-9">
   <table>
     <tbody>
       <tr>
@@ -100,26 +117,124 @@
 </form>
 <br />
 {% for info in info_list %}
-<a href="{% url 'shop_detail' info.id %}">
-  <div class="card w-50">
+<a href="{% url 'shop_detail' info.id %}" style="text-decoration:none">
+  <div class="card w-100">
     <div class="card-body">
-      <h5 class="card-title">{{ info.name }}</h5>
-      <p class="card-text">{{ info.address }}</p>
-      <p class="card-text">{{ info.tel }}</p>
-    </div>
-  </div><br>
-</a>
-{% endfor %}
+      <div id="info_list_search" class="col-md-12">
 
-{% for info in all %}
-<a href="{% url 'shop_detail' info.id %}">
-  <div class="card w-75">
-    <div class="card-body">
-      <h5 class="card-title">{{ info.name }}</h5>
-      <p class="card-text">{{ info.address }}</p>
-      <p class="card-text">{{ info.tel }}</p>
+                        <!--테이블 연습용-->
+
+                        <table style="width:100%; height: 100px; margin: auto; text-align: center;">
+                          <tr>
+
+                            <td style="width:10%;">
+                              {% if info.img == '' %}
+                              <img src="/static/img/ready.gif" style="height: auto; width:100px;" />
+                              {% else %}
+                              <img src="{{info.img}}" style="height: 100px; width:100px;" />
+                              {% endif %}
+                            </td>
+
+                            <td style="width:5%;">
+                            </td>
+
+                            <td align=Left style="width:60%;">
+                              <h4 class="card-title"><span style="color:#2b2222e0"><b>{{ info.name }}</b></span></h4>
+                              <h6 class="card-text"><span style="color:#9E9E9E">주소: </span><span style="color:#3498DB">{{ info.address }}</span></h6>
+                              <h6 class="card-text"><span style="color:#9E9E9E">전화번호: </span><span style="color:#3498DB">{{ info.tel }}</span></h6>
+                              <h6 class="card-text"><span style="color:#9E9E9E">리뷰: </span><span style="color:#3498DB">{{ info.tel.count }}</span></h6></a>
+                            </td>
+
+                            <td style="width:25%;">
+                              <a href="https://map.kakao.com/link/to/{{info.name}},{{info.lat}},{{info.lon}}" style="text-decoration:none">
+                              <h6 class="card-text"><button type="button" class="btn" style="background-color: rgba(255, 225, 0, 0.965);"><span style="color:rgb(255, 255, 255)">카카오맵으로 길찾기</span></button></h6>
+                              </a>
+                              <p></p>
+                              <a href="https://map.naver.com/v5/search/{{info.address}}?c=14362249.6839062,4177116.3799269,15,0,0,0,dh" style="text-decoration:none">
+                              <h6 class="card-text"><button type="button" class="btn" style="background-color: rgb(34, 213, 49);"><span style="color:rgb(255, 255, 255)">네이버맵으로 길찾기</span></button></h6>
+                              </a>
+                            </td>
+
+                          </tr>
+                        </table>
+                      
+                        <!--테이블 연습끝-->
+
+
+
+
+
+            
+    </div>
     </div>
   </div><br>
 </a>
 {% endfor %}
+</div>
+<div class="col">
+</div>
+</div>
+
+
+
+
+<div class="container text-left">
+  <div class="row">
+    <div class="col">
+    </div>
+    <div class="col-9">
+{% for info in all %}
+<a href="{% url 'shop_detail' info.id %}" style="text-decoration:none">
+  <div class="card w-100">
+    <div class="card-body">
+      <div id="info_list_search" class="col-md-12">
+
+                        <!--테이블 연습용-->
+
+                        <table style="width:100%; height: 100px; margin: auto; text-align: center;">
+                          <tr>
+
+                            <td style="width:10%;">
+                              {% if info.img == '' %}
+                              <img src="/static/img/ready.gif" style="height: auto; width:100px;" />
+                              {% else %}
+                              <img src="{{info.img}}" style="height: 100px; width:100px;" />
+                              {% endif %}
+                            </td>
+
+                            <td style="width:5%;">
+                            </td>
+
+                            <td align=Left style="width:60%;">
+                              <h4 class="card-title"><span style="color:#2b2222e0"><b>{{ info.name }}</b></span></h4>
+                              <h6 class="card-text"><span style="color:#9E9E9E">주소: </span><span style="color:#3498DB">{{ info.address }}</span></h6>
+                              <h6 class="card-text"><span style="color:#9E9E9E">전화번호: </span><span style="color:#3498DB">{{ info.tel }}</span></h6>
+                              <h6 class="card-text"><span style="color:#9E9E9E">리뷰: </span><span style="color:#3498DB">{{ info.tel.count }}</span></h6></a>
+                            </td>
+
+                            <td style="width:25%;">
+                              <a href="https://map.kakao.com/link/to/{{info.name}},{{info.lat}},{{info.lon}}" style="text-decoration:none">
+                              <h6 class="card-text"><button type="button" class="btn" style="background-color: rgba(255, 225, 0, 0.965);"><span style="color:rgb(255, 255, 255)">카카오맵으로 길찾기</span></button></h6>
+                              </a>
+                              <p></p>
+                              <a href="https://map.naver.com/v5/search/{{info.address}}?c=14362249.6839062,4177116.3799269,15,0,0,0,dh" style="text-decoration:none">
+                              <h6 class="card-text"><button type="button" class="btn" style="background-color: rgb(34, 213, 49);"><span style="color:rgb(255, 255, 255)">네이버맵으로 길찾기</span></button></h6>
+                              </a>
+                            </td>
+
+                          </tr>
+                        </table>
+                      
+                        <!--테이블 연습끝-->
+
+    </div>
+   </div>
+  <br>
+</a>
+{% endfor %}
+</div>
+<div class="col">
+</div>
+</div>
+
 {% endblock %}
